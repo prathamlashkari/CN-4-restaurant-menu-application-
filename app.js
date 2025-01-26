@@ -13,3 +13,70 @@ const menu = [
   { id: 12, title: "Mango Lassi", category: "beverages", price: "$5", description: "Refreshing Indian drink made with mango and yogurt", img: "https://media.istockphoto.com/id/1217751214/photo/fresh-mango-lassi-and-mango-fruit.webp?b=1&s=170667a&w=0&k=20&c=Jt0J70BwVkGdirVAu78hKb-MiMzN3_GUbCz8SmGUdS8=" },
   { id: 13, title: "Green Tea", category: "beverages", price: "$3", description: "Traditional green tea with antioxidants", img: "https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Z3JlZW4lMjB0ZWF8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
 ];
+
+const menuContainer = document.querySelector('#menu');
+  const filterButtons = document.querySelectorAll('.filter-button');
+  const searchInput = document.querySelector('#search-input');
+  
+  function displayMenuItems(menuItems) {
+    let displayMenu = menuItems.map(function (item) {
+      return `<div class="menu-item col-12 col-md-6 col-lg-4">
+      <div class="card">
+        <img src="${item.img}" class="card-img-top" alt="${item.title}">
+        <div class="card-body">
+          <h5 class="card-title">${item.title}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">${item.price}</h6>
+          <p class="card-text">${item.description}</p>
+          <p class="card-text"><small class="text-muted">Category: ${item.category}</small></p>
+        </div>
+      </div>
+    </div>
+    `;
+    });
+  
+    displayMenu = displayMenu.join("");
+    menuContainer.innerHTML = displayMenu;
+  }
+  
+  filterButtons.forEach(function (button) {
+    button.addEventListener('click', function (e) {
+      const category = e.currentTarget.dataset.filter;
+      const menuCategory = category === 'all' 
+        ? menu 
+        : menu.filter(function (menuItem) {
+            return menuItem.category === category;
+          });
+      displayMenuItems(menuCategory);
+    });
+  });
+  
+  window.addEventListener('DOMContentLoaded', function () {
+    displayMenuItems(menu);
+});
+
+// Popup functionality
+var modal = document.getElementById("cart-popup");
+var span = document.getElementsByClassName("close-button")[0];
+
+function showPopup() {
+    modal.style.display = "block";
+}
+
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Search functionality
+searchInput.addEventListener('keyup', function(e) {
+    const searchString = e.target.value.toLowerCase();
+    const filteredMenu = menu.filter((menuItem) => {
+        return menuItem.title.toLowerCase().includes(searchString) || menuItem.description.toLowerCase().includes(searchString);
+    });
+    displayMenuItems(filteredMenu);
+});
