@@ -54,7 +54,6 @@ const menuContainer = document.querySelector('#menu');
     displayMenuItems(menu);
 });
 
-// Popup functionality
 var modal = document.getElementById("cart-popup");
 var span = document.getElementsByClassName("close-button")[0];
 
@@ -72,7 +71,6 @@ window.onclick = function(event) {
     }
 }
 
-// Search functionality
 searchInput.addEventListener('keyup', function(e) {
     const searchString = e.target.value.toLowerCase();
     const filteredMenu = menu.filter((menuItem) => {
